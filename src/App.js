@@ -99,7 +99,6 @@ class App extends Component {
 
     newTodos = this.sortTodos(newTodos);
 
-    console.log(newTodos);
     this.syncTodos(newTodos);
   }
 

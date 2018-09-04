@@ -26,7 +26,7 @@ const Divider = styled.div`
   width: 100%;
   height: 1px;
   background-color: #707070;
-  margin: 50px 0;
+  margin: 35px 0;
 `;
 
 const DoneTodos = styled(Todos)``;

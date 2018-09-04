@@ -15,6 +15,7 @@ const StyledTodoItem = styled.li`
 
   border: none;
   border-bottom: 0.05em solid #707070;
+  font-size: 130%;
   font-weight: 300;
 
   /* &:before {
@@ -44,14 +45,13 @@ const StyledTodoItem = styled.li`
   ${props =>
     props.isComplete
       ? `
-      
-      opacity: 0.8;
-      
-      &:after {
-        width: calc(100% - 4em);
-      }
-      
-  `
+        font-weight: 300;
+        opacity: 0.8;
+        
+        &:after {
+          width: calc(100% - 4em);
+        }
+      `
       : ''};
 `;
 
@@ -72,6 +72,7 @@ const Input = styled.input.attrs({
   background-color: transparent;
   border: none;
   color: #707070;
+  font-size: inherit;
   outline: none;
 
   transition-duration: 0.3s;
