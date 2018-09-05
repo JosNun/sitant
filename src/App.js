@@ -6,6 +6,7 @@ import './App.css';
 
 import TodoForm from './TodoForm';
 import TodoList from './TodoList';
+import ReviewPrompt from './ReviewPrompt';
 
 const DEVMODE = !(window.chrome && chrome.runtime && chrome.runtime.id);
 
@@ -44,16 +45,38 @@ class App extends Component {
     this.updateTodo = this.updateTodo.bind(this);
     this.moveTodo = this.moveTodo.bind(this);
     this.toggleChecked = this.toggleChecked.bind(this);
+    this.hideReviewPrompt = this.hideReviewPrompt.bind(this);
+
+    if (!DEVMODE) {
+      chrome.storage.sync.get('openCount', result => {
+        chrome.storage.sync.set({
+          openCount: result.openCount + 1 || 1,
+        });
+      });
+    }
   }
 
   componentDidMount() {
     if (!DEVMODE) {
-      chrome.storage.sync.get(['todos'], result => {
+      chrome.storage.sync.get(['todos', 'openCount', 'dontPrompt'], result => {
         const todos = result.todos || [];
+        const showRatePrompt =
+          !result.dontPrompt && result.openCount % 100 === 0;
         this.setState({
           todos,
+          showRatePrompt,
         });
       });
+    } else {
+      this.setState({
+        todos: dummyTodos,
+      });
+
+      window.promptReview = () => {
+        this.setState({
+          showRatePrompt: true,
+        });
+      };
     }
   }
 
@@ -65,6 +88,20 @@ class App extends Component {
     };
     const newTodos = [newTodo, ...lastTodos];
     this.syncTodos(newTodos);
+  }
+
+  hideReviewPrompt() {
+    this.setState({
+      showRatePrompt: false,
+    });
+  }
+
+  preventReviewPrompt() {
+    if (!DEVMODE) {
+      chrome.storage.sync.set({ dontPrompt: true });
+    } else {
+      console.log('preventing prompt');
+    }
   }
 
   updateTodo(oldValue, newValue) {
@@ -128,6 +165,11 @@ class App extends Component {
     const { todos } = this.state;
     return (
       <Container className="App">
+        <ReviewPrompt
+          pose={this.state.showRatePrompt ? 'open' : 'hidden'}
+          hidePrompt={this.hideReviewPrompt}
+          preventPrompt={this.preventReviewPrompt}
+        />
         <TodoForm addTodo={this.addTodo} />
         <TodoList
           todos={todos}

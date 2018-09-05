@@ -43,7 +43,7 @@ const PosedTodoItem = posed(TodoItem)({
     height: '1em',
     transition: {
       type: 'tween',
-      ease: 'easeOut',
+      ease: 'circOut',
     },
   },
   exit: {
@@ -52,7 +52,7 @@ const PosedTodoItem = posed(TodoItem)({
     height: 0,
     transition: {
       type: 'tween',
-      ease: 'easeOut',
+      ease: 'circOut',
     },
   },
 });
