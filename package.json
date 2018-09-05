@@ -13,7 +13,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "build:extension": "yarn build && rm -r extension && cp -r build extension && cp -a ./info/. ./extension/",
+    "build:extension": "yarn build && rm -r extension || true && cp -r build extension && cp -a ./info/. ./extension/",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
