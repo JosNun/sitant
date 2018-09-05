@@ -36,23 +36,26 @@ class App extends Component {
   constructor(props) {
     super(props);
 
-    let todos;
-
-    if (!DEVMODE) {
-      todos = JSON.parse(localStorage.getItem('todos'));
-      if (!todos) todos = [];
-    } else {
-      todos = dummyTodos;
-    }
-
     this.state = {
-      todos,
+      todos: [],
     };
 
     this.addTodo = this.addTodo.bind(this);
     this.updateTodo = this.updateTodo.bind(this);
     this.moveTodo = this.moveTodo.bind(this);
     this.toggleChecked = this.toggleChecked.bind(this);
+  }
+
+  componentDidMount() {
+    if (!DEVMODE) {
+      chrome.storage.sync.get(['todos'], result => {
+        console.log(`Value currently is ${result}`);
+        const todos = result.todos || [];
+        this.setState({
+          todos,
+        });
+      });
+    }
   }
 
   addTodo(content) {
@@ -116,7 +119,7 @@ class App extends Component {
   }
 
   syncTodos(todos) {
-    if (!DEVMODE) localStorage.setItem('todos', JSON.stringify(todos));
+    if (!DEVMODE) chrome.storage.sync.set({ todos });
     this.setState({
       todos,
     });
