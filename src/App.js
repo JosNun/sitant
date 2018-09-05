@@ -12,20 +12,32 @@ const DEVMODE = !(window.chrome && chrome.runtime && chrome.runtime.id);
 
 const dummyTodos = [
   {
-    value: 'I’m a dummy todo',
     isComplete: false,
+    value: 'Perfect for making quick reminders',
   },
   {
-    value: 'I’m another dummy todo',
     isComplete: false,
+    value: 'Or maybe you need a task list',
   },
   {
-    value: 'I’m a comlete todo',
-    isComplete: true,
+    isComplete: false,
+    value: 'To add an item, simply enter it in the input',
   },
   {
-    value: 'I’m another complete todo',
+    isComplete: false,
+    value: 'Made a mistake? Todos are editable',
+  },
+  {
+    isComplete: false,
+    value: "Erase an item by simply deleting it's text",
+  },
+  {
+    isComplete: false,
+    value: 'Also, todos can be sorted with the arrows',
+  },
+  {
     isComplete: true,
+    value: 'Seeing checked off items is a great motivator',
   },
 ];
 
@@ -59,7 +71,7 @@ class App extends Component {
   componentDidMount() {
     if (!DEVMODE) {
       chrome.storage.sync.get(['todos', 'openCount', 'dontPrompt'], result => {
-        const todos = result.todos || [];
+        const todos = result.todos || dummyTodos;
         const showRatePrompt =
           !result.dontPrompt && result.openCount % 100 === 0;
         this.setState({
