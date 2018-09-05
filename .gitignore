@@ -9,6 +9,7 @@
 # production
 /build
 /extension
+extension.zip
 
 # misc
 .DS_Store
