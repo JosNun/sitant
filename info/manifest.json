@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "Sitant: Simple Tasks in New Tab",
   "short_name": "Sitant",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "A minimal, yet incredibly functional new tab replacement",
   "icons": {
     "16": "logo.png",

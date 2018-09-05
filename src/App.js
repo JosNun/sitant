@@ -49,7 +49,6 @@ class App extends Component {
   componentDidMount() {
     if (!DEVMODE) {
       chrome.storage.sync.get(['todos'], result => {
-        console.log(`Value currently is ${result}`);
         const todos = result.todos || [];
         this.setState({
           todos,
